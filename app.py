@@ -1,3 +1,4 @@
+from typing_extensions import final
 from flask import Flask, request, jsonify
 import lyricparsing
 import audio_cut
@@ -19,7 +20,12 @@ import sys
 import subprocess
 #import librosa
 
+from flask_cors import CORS
+
+
+
 app = Flask(__name__)
+CORS(app)
  
 @app.route('/', methods = ['POST'])
 def getSong():
@@ -68,9 +74,14 @@ def editSong():
     voice_conversion.voice_conversion(target)
 
     # 다시 취합
-    final_mp3.final_mp3(timetrack)
+    final_base64 = final_mp3.final_mp3(timetrack)
+    # final_base64= str(final_base64)
+    
+    data = {
+        "final_base64" : str(final_base64.decode("utf-8"))
+    }
 
-    return jsonify({})
+    return jsonify(data)
 
 if __name__ == "__main__":
     app.run(debug=True)

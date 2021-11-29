@@ -33,6 +33,7 @@ import sys
 import wave
 import scipy.io.wavfile
 from numpy import *
+import shutil
 
 #Hyperparameters
 
@@ -761,18 +762,23 @@ def towave(spec, name, path='../content/', show=False):
   #   plt.show()
   return abwv
 
-model_path = "C:\\Users\\User\\Desktop\\21-2_school\\capstone_project\\backend\\MELGANVC-0.5553046-0.5153603-0.1086449"
+model_path = "C:\\Users\\User\\Desktop\\21-2_school\\capstone_project\\project\\backend\\MELGANVC-0.5553046-0.5153603-0.1086449"
 #model_path = "/MELGANVC-0.5553046-0.5153603-0.1086449"
 gen, critic, siam, [opt_gen, opt_disc] = get_networks(shape, load_model=True, path=model_path)
 
 #Wav to wav conversion
 def voice_conversion(target):
+    # 폴더 있으면 폴더 지우기
+    print(os.path.isdir("./voice_convert_result"))
+    if os.path.isdir("./voice_convert_result"):
+          shutil.rmtree("./voice_convert_result")
+
     if target == "Man":
-        model_path = "C:\\Users\\User\\Desktop\\21-2_school\\capstone_project\\backend\\MELGANVC-0.5553046-0.5153603-0.1086449"
+        model_path = "C:\\Users\\User\\Desktop\\21-2_school\\capstone_project\\project\\backend\\MELGANVC-0.5553046-0.5153603-0.1086449"
         #model_path = "/MELGANVC-0.5553046-0.5153603-0.1086449"
     # gen,critic,siam, [opt_gen,opt_disc] = get_networks(shape, load_model=True, path='../content/drive/MyDrive/male_male_checkpoint/MELGANVC-0.5553046-0.5153603-0.1086449/')
     else:
-        model_path = "C:\\Users\\User\\Desktop\\21-2_school\\capstone_project\\backend\\MELGANVC-0.5380363-0.5506637-0.0765312"
+        model_path = "C:\\Users\\User\\Desktop\\21-2_school\\capstone_project\\project\\backend\\MELGANVC-0.5380363-0.5506637-0.0765312"
         #model_path = "/MELGANVC-0.5380363-0.5506637-0.0765312"
     gen, critic, siam, [opt_gen, opt_disc] = get_networks(shape, load_model=True, path=model_path)
     # Wav to wav conversion
@@ -781,14 +787,14 @@ def voice_conversion(target):
     speca = prep(wv)                                                    #Waveform to Spectrogram
     #paulstretch(sr,speca, 1 ,0.25,"converted.wav")
     #abwv = towave(speca, name='voice_convert_result', path='C:\\Users\\User\\Desktop\\21-2_school\\capstone_project\\Flask_Prac')          
-    abwv = towave(speca, name='voice_convert_result', path='C:\\Users\\User\\Desktop\\21-2_school\\capstone_project\\backend')          
+    abwv = towave(speca, name='voice_convert_result', path='C:\\Users\\User\\Desktop\\21-2_school\\capstone_project\\project\\backend')          
 
-    song_length1 = librosa.get_duration(filename='C:\\Users\\User\\Desktop\\21-2_school\\capstone_project\\backend\\voice_convert_result\\AB.wav')
+    song_length1 = librosa.get_duration(filename='C:\\Users\\User\\Desktop\\21-2_school\\capstone_project\\project\\backend\\voice_convert_result\\AB.wav')
     #song_length2 = get_duration("soundtrack1-vocals.wav")
     org_song_length = librosa.get_duration(filename="soundtrack1-vocals.wav")
     print("result", song_length1, "org", org_song_length)
 
-    (samplerate,smp)=load_wav('C:\\Users\\User\\Desktop\\21-2_school\\capstone_project\\backend\\voice_convert_result\\AB.wav')
+    (samplerate,smp)=load_wav('C:\\Users\\User\\Desktop\\21-2_school\\capstone_project\\project\\backend\\voice_convert_result\\AB.wav')
     y_third = librosa.effects.pitch_shift(smp, samplerate, n_steps= 8) #-4키로 바꾸기
     paulstretch(samplerate,y_third, org_song_length/song_length1 ,0.25,"coverted_and_length_squeeze.wav")
 

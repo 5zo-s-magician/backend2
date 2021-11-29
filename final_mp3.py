@@ -4,6 +4,7 @@
 #!pip install pydub
 #!apt install ffmpeg
 from pydub import AudioSegment
+import base64
 # MR+VOCAL overlay
 
 #sound1 = AudioSegment.from_file("/path/to/my_sound.wav")
@@ -44,4 +45,18 @@ def final_mp3(timetrack):
     final_clip = final_clip + clips[i]
 
   final_clip.export("final.mp3",format="mp3")
+  
 
+  # mp3 to base64
+  enc = base64.b64encode(open("final.mp3","rb").read())
+
+  return enc
+
+
+# def ToBase64(file, txt):
+#     with open(file, 'rb') as fileObj:
+#         image_data = fileObj.read()
+#         base64_data = base64.b64encode(image_data)
+#         fout = open(txt, 'w')
+#         fout.write(base64_data.decode())
+#         fout.close()
