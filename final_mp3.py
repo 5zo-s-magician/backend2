@@ -1,14 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
-
-
 #!pip install pydub
 #!apt install ffmpeg
 from pydub import AudioSegment
 # MR+VOCAL overlay
-
 
 #sound1 = AudioSegment.from_file("/path/to/my_sound.wav")
 #sound2 = AudioSegment.from_file("/path/to/another_sound.wav")
@@ -34,15 +30,17 @@ def final_mp3(timetrack):
       clips.append(clip)
   
     elif i % 2 == 1:
-      vocals=AudioSegment.from_file("./voice_conversion_result/voice_conversion_pitch_right/shift_fitch.wav")
+      vocals=AudioSegment.from_file("coverted_and_length_squeeze.wav")
+      #vocals=AudioSegment.from_file(file_name+"-vocals.wav")
+      vocals_amp=vocals+15
       mrs=AudioSegment.from_file(file_name+'-mrs.wav')
-      combined = vocals.overlay(mrs)
+      combined = mrs.overlay(vocals_amp)
       #combined.export(file_name_remmr+'-new.mp3',format="mp3")
       clips.append(combined)
 
   #list화 된 clip들 pydub 이용해서 전체 연결하기
   final_clip = clips[0]
-  for i in range(len(clips)):
+  for i in range(1, len(clips)):
     final_clip = final_clip + clips[i]
 
   final_clip.export("final.mp3",format="mp3")

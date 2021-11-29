@@ -16,6 +16,7 @@ import contextlib
 import voice_conversion
 import subprocess
 import sys
+import subprocess
 #import librosa
 
 app = Flask(__name__)
@@ -59,7 +60,7 @@ def editSong():
     f.write(base64)
     f.close()
 
-    #install("numpy==1.19.5")
+    #cmd = ['powershell.exe', 'Start-Process', 'notepad', '${env:ProgramFiles(x86)}\test\setting.ini','-Verb','runAs']
     timetrack = audio_cut.audio_cut("base64.txt",member_time)
 
     # voice conversion
@@ -67,7 +68,7 @@ def editSong():
     voice_conversion.voice_conversion(target)
 
     # 다시 취합
-    #final_mp3.final_mp3(timetrack)
+    final_mp3.final_mp3(timetrack)
 
     return jsonify({})
 
