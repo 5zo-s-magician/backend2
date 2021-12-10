@@ -31,9 +31,10 @@ def final_mp3(timetrack):
       clips.append(clip)
   
     elif i % 2 == 1:
-      vocals=AudioSegment.from_file("coverted_and_length_squeeze.wav")
+      vocal_path = "./conversion_output/convert"+str(i)+"/coverted_and_length_squeeze.wav"
+      vocals=AudioSegment.from_file(vocal_path)
       #vocals=AudioSegment.from_file(file_name+"-vocals.wav")
-      vocals_amp=vocals+15
+      vocals_amp=vocals+10
       mrs=AudioSegment.from_file(file_name+'-mrs.wav')
       combined = mrs.overlay(vocals_amp)
       #combined.export(file_name_remmr+'-new.mp3',format="mp3")
@@ -51,12 +52,3 @@ def final_mp3(timetrack):
   enc = base64.b64encode(open("final.mp3","rb").read())
 
   return enc
-
-
-# def ToBase64(file, txt):
-#     with open(file, 'rb') as fileObj:
-#         image_data = fileObj.read()
-#         base64_data = base64.b64encode(image_data)
-#         fout = open(txt, 'w')
-#         fout.write(base64_data.decode())
-#         fout.close()

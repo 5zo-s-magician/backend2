@@ -36,6 +36,7 @@ def getSong():
 
     # =-------------------------------------------------------------------------
     # 음원 파일 길이 알아내기
+    #f = open(song_name+"_base64.txt","w")
     f = open("base64.txt","w")
     f.write(song_base64)
     f.close()
@@ -43,16 +44,13 @@ def getSong():
     mp3_file = open("song.mp3", "wb")
     decode_string = base64.b64decode(open("base64.txt", "rb").read())
     mp3_file.write(decode_string)
+    mp3_file.close()
     audio = MP3("song.mp3")
     song_length =  audio.info.length
 
     data = lyricparsing.lyric_parsing(song_name, song_length)
     
     return jsonify(data)
-
-def install(package):
-    subprocess.check_call([])
-    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
 
 @app.route('/new_song', methods = ['POST'])
 def editSong():
@@ -62,20 +60,18 @@ def editSong():
     base64 = song['base64']
 
     # 음원 자르고 엠얼 제거
-    f = open("base64.txt","w")
-    f.write(base64)
-    f.close()
+    # f = open(song_name+"_base64.txt","w")
+    # f.write(base64)
+    # f.close()
 
-    #cmd = ['powershell.exe', 'Start-Process', 'notepad', '${env:ProgramFiles(x86)}\test\setting.ini','-Verb','runAs']
     timetrack = audio_cut.audio_cut("base64.txt",member_time)
+    print(timetrack)
 
     # voice conversion
-    #install("numpy==1.20.0")
-    voice_conversion.voice_conversion(target)
+    voice_conversion.voice_conversion(len(timetrack), target)
 
     # 다시 취합
     final_base64 = final_mp3.final_mp3(timetrack)
-    # final_base64= str(final_base64)
     
     data = {
         "final_base64" : str(final_base64.decode("utf-8"))

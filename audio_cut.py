@@ -8,12 +8,12 @@ from mutagen.mp3 import MP3
 from IPython.display import Audio
 
 def audio_cut(base_mp3_file, member_part):
-  mp3_file = open("soundtrack.mp3", "wb")
-  decode_string = base64.b64decode(open(base_mp3_file, "rb").read())
-  mp3_file.write(decode_string)
-  audio = MP3("soundtrack.mp3")
+  # mp3_file = open("soundtrack.mp3", "wb")
+  # decode_string = base64.b64decode(open(base_mp3_file, "rb").read())
+  # mp3_file.write(decode_string)
+  audio = MP3("song.mp3")
   end_time =  audio.info.length
-  mp3_file.close()
+  #mp3_file.close()
 
   # 멤버별 파트 set list를 리스트화 시키기
   timetrack = [0]
@@ -25,7 +25,7 @@ def audio_cut(base_mp3_file, member_part):
 
   #음원 편집 용 파트!!!!
   # Opening file and extracting segment
-  song = AudioSegment.from_file("soundtrack.mp3")
+  song = AudioSegment.from_file("song.mp3")
 
   for i in range(len(timetrack)-1):
     #timetrack에서 index 0부터 (0,1) (1,2) ... 식으로 잘라내고 saving 까지
@@ -33,16 +33,17 @@ def audio_cut(base_mp3_file, member_part):
     #저장명은 곡명-extract+몇번째조각인지.mp3
     extract.export("soundtrack"+str(i)+".mp3", format="mp3")
 
-  # print(str(i)+"번째 조각 잘라내기")
-    if i == len(timetrack):
-      break
+    print(str(i)+"번째 조각 잘라내기")
+    # if i == len(timetrack):
+    #   break
 
-  #print("음원 segment 잘라내기 완료")
-
+  print("음원 segment 잘라내기 완료")
+  #print("-------------------",len(timetrack)-1)
   for i in range(len(timetrack)-1):
     if i % 2 == 1:
       str1 = "soundtrack"+str(i)+".mp3"
       Audio(str1)
+      print("strrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", str1)
       os.system("python -m spleeter separate -h")
       os.system("python -m spleeter separate -o output/ "+str1)
   print("끝")

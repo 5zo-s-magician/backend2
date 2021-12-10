@@ -100,13 +100,13 @@ def lyric_parsing(wav_title, wav_seconds):
                     member_list.append(found)
 
                     if((tmp_member!='' and tmp_member != found) or (tmp_member != '' and '<span/>' in line) ):
-                      print(tmp_member)
+                      #print(tmp_member)
                       end_index = i
                       if(not(tmp_member in final_dic)):
-                        print("hi")
+                        #print("hi")
                         final_dic[tmp_member] = []
                       final_dic[tmp_member].append([second_list[start_index], second_list[end_index]])
-                      print(str(second_list[start_index]) + ' ~ ' + str(second_list[end_index]))
+                      #print(str(second_list[start_index]) + ' ~ ' + str(second_list[end_index]))
                       start_index = i
 
                     tmp_member = found
@@ -114,13 +114,13 @@ def lyric_parsing(wav_title, wav_seconds):
                   else:
                     if(tmp_member != ''):
                       if('</span>' in line):
-                        print(tmp_member)
+                        #print(tmp_member)
                         end_index = i
                         if(not(tmp_member in final_dic)):
-                          print("hi")
+                          #print("hi")
                           final_dic[tmp_member] = []
                         final_dic[tmp_member].append([second_list[start_index], second_list[end_index]])
-                        print(str(second_list[start_index]) + ' ~ ' + str(second_list[end_index]))
+                        #print(str(second_list[start_index]) + ' ~ ' + str(second_list[end_index]))
                         
                         start_index = i
                       else:
@@ -130,10 +130,10 @@ def lyric_parsing(wav_title, wav_seconds):
 
                 member_set = set(member_list)
                 member_list2 = list(member_set)
-                print(member_list2)
-                print(member_list)
-                print(second_list)
-                print(final_dic)
+                # print(member_list2)
+                # print(member_list)
+                # print(second_list)
+                # print(final_dic)
 
               else: # 문단별로 파트가 나뉘어져 있을 때
                 # print(tmp_lyrics_string)
@@ -146,7 +146,7 @@ def lyric_parsing(wav_title, wav_seconds):
                 end_index = 0
                 i = 0
                 for line in tmp_lyrics_list:
-                  print(line)
+                  #print(line)
                   if(line[1:3] == '[0'):
                     second = line[2:10]
                     second_list.append(second_to_float(second))
@@ -162,12 +162,12 @@ def lyric_parsing(wav_title, wav_seconds):
                       if(not(tmp_member in final_dic)):
                         # print("hi")
                         final_dic[tmp_member] = []
-                      print(tmp_member)
+                      #print(tmp_member)
                       # print(second_list)
                       # print(start_index)
                       # print(end_index)
                       final_dic[tmp_member].append([second_list[start_index], second_list[end_index]])
-                      print(str(second_list[start_index]) + ' ~ ' + str(second_list[end_index]))
+                      #print(str(second_list[start_index]) + ' ~ ' + str(second_list[end_index]))
                       start_index = i
 
                     tmp_member = line
@@ -193,10 +193,10 @@ def lyric_parsing(wav_title, wav_seconds):
               
                 member_set = set(member_list)
                 member_list2 = list(member_set)
-                print(member_list2)
-                print(member_list)
-                print(second_list)
-                print(final_dic)
+                # print(member_list2)
+                # print(member_list)
+                # print(second_list)
+                # print(final_dic)
 
                 if(final_dic != {}):
                   for k, v in final_dic.items():
